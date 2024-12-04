@@ -4,7 +4,7 @@ import axios from 'axios';
 import './signup.css';
 
 const Logout = () => {
-    const navigate = useNavigate();
+    const navigate = useNavigate(); 
 
     const handleLogout = async () => {
         try {

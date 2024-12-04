@@ -11,11 +11,11 @@ const Login = () => {
     const submit = async (e) => {
         e.preventDefault();
         try {
-            const response = await axios.post("https://134.209.229.112:8080.com/api/users/login", { email, password: pass });
+            const response = await axios.post("http://134.209.229.112:8080/api/users/login", { email, password: pass });
 
-            if (response.data.success) {
+            if (response.data.statuscode === true) {
                 alert("Login Successfully");
-                navigate('/Logout'); 
+                navigate('/logout'); 
             } else {
                 alert(response.data.message || "Login failed");
             }

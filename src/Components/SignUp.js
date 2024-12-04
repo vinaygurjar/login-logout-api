@@ -5,20 +5,21 @@ import "./signup.css";
 
 const Signup = () => {
   const navigate = useNavigate();
-  const [firstName, setFirstName] = useState("");
-  const [lastName, setLastName] = useState("");
+  const [first_name, setFirst_name] = useState("");
+  const [last_name, setLast_name] = useState("");
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
-  const [mobile, setMobile] = useState("");
-  const [zipCode, setZipCode] = useState("");
+  const [phone, setPhone] = useState("");
+  const [zip_code, setZip_code] = useState("");
   const [password, setPassword] = useState("");
+  const [device_type, setDevice_type] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
 
   const submit = async (e) => {
     e.preventDefault();
 
     // Basic Validation
-    if (!firstName || !lastName || !username || !email || !mobile || !zipCode || !password || !confirmPassword) {
+    if (!email || !password || !first_name || !last_name || !username || !zip_code || !phone || !device_type) {
       alert("All fields are required!");
       return;
     }
@@ -29,25 +30,32 @@ const Signup = () => {
     }
 
     try {
-      const response = await axios.post("https://134.209.229.112:8080.com/api/users/register_web", {
-        firstName,
-        lastName,
-        username,
+      const response = await axios.post("http://134.209.229.112:8080/api/users/register_web", {
         email,
-        mobile,
-        zipCode,
         password,
+        first_name,
+        last_name,
+        username,
+        zip_code,
+        phone,
+        device_type,
       });
 
       if (response.data.success) {
         alert("Account Created Successfully!");
+        console.log("response",response);
+        
         navigate("/login");
       } else {
         alert(response.data.message || "Something went wrong!");
       }
+      return response.data.statuscode === false;
     } catch (error) {
       console.error("Error during signup:", error.message);
       alert("Error during signup. Please try again.");
+      console.error("Error checking email:", error.message);
+      alert("An error occurred while checking the email.");
+      return false;
     }
   };
 
@@ -60,17 +68,17 @@ const Signup = () => {
         <div className="box">
           <input
             type="text"
-            value={firstName}
+            value={first_name}
             placeholder="First Name"
-            onChange={(e) => setFirstName(e.target.value)}
+            onChange={(e) => setFirst_name(e.target.value)}
           />
         </div>
         <div className="box">
           <input
             type="text"
-            value={lastName}
+            value={last_name}
             placeholder="Last Name"
-            onChange={(e) => setLastName(e.target.value)}
+            onChange={(e) => setLast_name(e.target.value)}
           />
         </div>
         <div className="box">
@@ -92,17 +100,17 @@ const Signup = () => {
         <div className="box">
           <input
             type="tel"
-            value={mobile}
+            value={phone}
             placeholder="Mobile Number"
-            onChange={(e) => setMobile(e.target.value)}
+            onChange={(e) => setPhone(e.target.value)}
           />
         </div>
         <div className="box">
           <input
             type="text"
-            value={zipCode}
+            value={zip_code}
             placeholder="Zip Code"
-            onChange={(e) => setZipCode(e.target.value)}
+            onChange={(e) => setZip_code(e.target.value)}
           />
         </div>
         <div className="box">
@@ -119,6 +127,14 @@ const Signup = () => {
             value={confirmPassword}
             placeholder="Confirm Password"
             onChange={(e) => setConfirmPassword(e.target.value)}
+          />
+        </div>
+        <div className="box">
+          <input
+            type="password"
+            value={device_type}
+            placeholder="device type"
+            onChange={(e) => setDevice_type(e.target.value)}
           />
         </div>
         <p>
